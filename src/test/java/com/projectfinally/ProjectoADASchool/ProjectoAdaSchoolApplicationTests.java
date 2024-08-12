@@ -8,6 +8,6 @@ class ProjectoAdaSchoolApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Este método de prueba verifica que el contexto de la aplicación se carga correctamente.
 	}
-
 }

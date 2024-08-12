@@ -1,33 +1,28 @@
 package com.projectfinally.ProjectoADASchool.controller;
 
-import com.projectfinally.ProjectoADASchool.Service.ExpenseService;
+import com.projectfinally.ProjectoADASchool.Service.ExpenseService; // Asegúrate de importar el servicio
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Collections;
-
-@WebMvcTest(ExpenseController.class)
+@WebMvcTest(controllers = ExpenseController.class)
 public class ExpenseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockBean // Simula el ExpenseService
     private ExpenseService expenseService;
 
     @Test
-    public void testGetAllExpenses() throws Exception {
-        Mockito.when(expenseService.getAllExpenses()).thenReturn(Collections.emptyList());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/expenses")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+    @WithMockUser(username = "user", roles = {"USER"})
+    void testGetAllExpenses() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/expenses"))
+                .andExpect(MockMvcResultMatchers.status().isOk());  // Verifica que la respuesta es 200 OK
     }
 }
